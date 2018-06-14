@@ -1,0 +1,24 @@
+{
+  "name": "photoshop-jsx",
+  "version": "1.0.0",
+  "description": "AdobePhotoshop ExtendsScript for publish assets.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Takepepe/photoshop-jsx.git"
+  },
+  "author": "Takepepe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Takepepe/photoshop-jsx/issues"
+  },
+  "homepage": "https://github.com/Takepepe/photoshop-jsx",
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-uglify": "^1.5.2",
+    "gulp-watch": "^4.3.5"
+  }
+}

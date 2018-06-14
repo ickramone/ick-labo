@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "outFile": "./app.jsx",
+        "sourceMap": false,
+        "target": "es3",
+        "module": "none",
+        "allowJs": true,
+        "checkJs": false,
+        "downlevelIteration": true,
+        "strict": true,
+        "noLib": false,
+        "lib": ["es5"],
+        "types": ["./photoshop.d.ts/dist/cc"]
+    },
+     "include": [
+        "./app.ts"
+    ]
+    "files": [
+        "./hotoshop.d.ts/ist/c/s.d.ts",
+        "./hotoshop.d.ts/ist/c/s.d.ts"
+    ]
+}

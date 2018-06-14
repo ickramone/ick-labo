@@ -1,0 +1,67 @@
+{
+  "_from": "photoshop.d.ts",
+  "_id": "photoshop.d.ts@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-bNJdjg+4ZFoxHh3ZVz1PY8Gi7r/2Xa597EsJS/ZzZCXyebvYQWNWhLuP/2iwjOf148NH7X5AF5mqrhTFxBxwoQ==",
+  "_location": "/photoshop.d.ts",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "photoshop.d.ts",
+    "name": "photoshop.d.ts",
+    "escapedName": "photoshop.d.ts",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/photoshop.d.ts/-/photoshop.d.ts-1.0.0.tgz",
+  "_shasum": "40c8b0701a4ffb492a5b3421e46146f3560a6170",
+  "_spec": "photoshop.d.ts",
+  "_where": "C:\\Users\\kiyohiro.ichikawa\\AppData\\Roaming\\npm",
+  "author": {
+    "name": "Felix Schlitter"
+  },
+  "bugs": {
+    "url": "https://github.com/felixschl/photoshop.d.ts/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Typescript declarations for photoshop",
+  "devDependencies": {
+    "bennu": "~17.2.2",
+    "fs-extra": "~0.13.0",
+    "lodash": "~2.4.1",
+    "typescript": "^2.4.2",
+    "wordwrap": "0.0.2"
+  },
+  "homepage": "https://github.com/felixschl/photoshop.d.ts#readme",
+  "keywords": [
+    "photoshop",
+    "typescript",
+    "javascript",
+    "api"
+  ],
+  "license": "BSD-2-Clause",
+  "main": "app.js",
+  "name": "photoshop.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/felixschl/photoshop.d.ts.git"
+  },
+  "scripts": {
+    "build": "npm run compile ./app.ts",
+    "compile": "tsc --target ES5 --module commonjs",
+    "compilelib": "tsc --target ES5 --module commonjs --lib es5",
+    "convert": "npm start cc && npm start cs6",
+    "pretest": "npm run build",
+    "start": "node app.js",
+    "test": "npm run test:cc && npm run test:cs6",
+    "test:cc": "npm run compilelib ./dist/cc/**",
+    "test:cs6": "npm run compilelib ./dist/cs6/**"
+  },
+  "version": "1.0.0"
+}
