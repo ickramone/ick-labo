@@ -1,0 +1,172 @@
+//単位指定　ピクセル
+preferences.rulerUnits = Units.PIXELS;
+
+//縦、横サイズを取得
+w = activeDocument.width;
+h = activeDocument.height;
+
+//どちらか長い方のサイズを選ぶ
+if(w > h){
+    Long = w;
+}else{
+    Long = h;
+}
+
+//長い方のサイズを2のべき乗数にして、画像サイズをその数の正方形にする
+if(Long <= 128){
+    activeDocument.resizeImage(128,128,72,BILINER);
+}else if((Long >= 129) && (Long <= 256)){
+    activeDocument.resizeImage(256,256,72,BILINER);
+}else if((Long >= 257) && (Long <= 512)){
+    activeDocument.resizeImage(512,512,72,BILINER);
+}else if((Long >= 513) && (Long <= 1024)){
+    activeDocument.resizeImage(1024,1024,72,BILINER);
+}else{
+    preferences.rulerUnits = Units.PIXELS;
+    activeDocument.resizeImage(2048,2048,72,BILINER);
+}
+
+
+
+//■ソースコード
+// preferences.rulerUnits = Units.PIXELS;
+// activeDocument.resizeImage(100,80);
+//■ポイント
+//サンプリング方法は以下のものが指定できます。
+// ResampleMethod.BICUBIC
+// ResampleMethod.BICUBICSHARPER
+// ResampleMethod.BICUBICSMOOTHER
+// ResampleMethod.BILINER
+// ResampleMethod.NEARESTNEIGHBOR
+// ResampleMethod.NONE
+
+
+
+
+//透明度から選択範囲を作成
+Trsp_to_mask()
+
+//透明部分を選択範囲に
+function Trsp_to_mask()
+{
+var id21 = charIDToTypeID( "setd" );
+    var desc4 = new ActionDescriptor();
+    var id22 = charIDToTypeID( "null" );
+        var ref2 = new ActionReference();
+        var id23 = charIDToTypeID( "Chnl" );
+        var id24 = charIDToTypeID( "fsel" );
+        ref2.putProperty( id23, id24 );
+    desc4.putReference( id22, ref2 );
+    var id25 = charIDToTypeID( "T   " );
+        var ref3 = new ActionReference();
+        var id26 = charIDToTypeID( "Chnl" );
+        var id27 = charIDToTypeID( "Chnl" );
+        var id28 = charIDToTypeID( "Trsp" );
+        ref3.putEnumerated( id26, id27, id28 );
+    desc4.putReference( id25, ref3 );
+executeAction( id21, desc4, DialogModes.NO );
+}
+
+
+// アルファチャンネル作成？=======================================================
+var idMk = charIDToTypeID( "Mk  " );
+    var desc21 = new ActionDescriptor();
+    var idNw = charIDToTypeID( "Nw  " );
+        var desc22 = new ActionDescriptor();
+        var idClrI = charIDToTypeID( "ClrI" );
+        var idMskI = charIDToTypeID( "MskI" );
+        var idMskA = charIDToTypeID( "MskA" );
+        desc22.putEnumerated( idClrI, idMskI, idMskA );
+        var idClr = charIDToTypeID( "Clr " );
+            var desc23 = new ActionDescriptor();
+            var idRd = charIDToTypeID( "Rd  " );
+            desc23.putDouble( idRd, 255.000000 );
+            var idGrn = charIDToTypeID( "Grn " );
+            desc23.putDouble( idGrn, 0.000000 );
+            var idBl = charIDToTypeID( "Bl  " );
+            desc23.putDouble( idBl, 0.000000 );
+        var idRGBC = charIDToTypeID( "RGBC" );
+        desc22.putObject( idClr, idRGBC, desc23 );
+        var idOpct = charIDToTypeID( "Opct" );
+        desc22.putInteger( idOpct, 50 );
+    var idChnl = charIDToTypeID( "Chnl" );
+    desc21.putObject( idNw, idChnl, desc22 );
+executeAction( idMk, desc21, DialogModes.NO );
+
+
+//アルファチャンネルを選択
+//chObj = activeDocument.channels[3];
+//activeDocument.selection.load(chObj);
+
+
+//選択範囲を塗りつぶす
+RGBColor = new SolidColor();
+RGBColor.red = 255;
+RGBColor.green = 255;
+RGBColor.blue = 255;
+//selReg = [[0,0],[200,0],[200,100],[0,100]];
+activeDocument.selection.select;
+activeDocument.selection.fill(RGBColor,ColorBlendMode.NORMAL, 100, false);
+
+//レイヤー作成
+layObj = activeDocument.artLayers.add();
+
+//一番上のレイヤーをアクティブに
+docObj = activeDocument;
+docObj.activeLayer = docObj.layers[0];
+
+//全部選択して
+activeDocument.selection.selectAll();
+
+//塗りつぶし
+RGBColor = new SolidColor();
+RGBColor.red = 128;
+RGBColor.green = 128;
+RGBColor.blue = 128;
+//selReg = [[0,0],[200,0],[200,100],[0,100]];
+activeDocument.selection.select;
+activeDocument.selection.fill(RGBColor,ColorBlendMode.NORMAL, 100, false);
+
+//レイヤーの順番変更　レイヤーを再背面へ
+// =======================================================
+var idmove = charIDToTypeID( "move" );
+    var desc25 = new ActionDescriptor();
+    var idnull = charIDToTypeID( "null" );
+        var ref10 = new ActionReference();
+        var idLyr = charIDToTypeID( "Lyr " );
+        var idOrdn = charIDToTypeID( "Ordn" );
+        var idTrgt = charIDToTypeID( "Trgt" );
+        ref10.putEnumerated( idLyr, idOrdn, idTrgt );
+    desc25.putReference( idnull, ref10 );
+    var idT = charIDToTypeID( "T   " );
+        var ref11 = new ActionReference();
+        var idLyr = charIDToTypeID( "Lyr " );
+        var idOrdn = charIDToTypeID( "Ordn" );
+        var idBack = charIDToTypeID( "Back" );
+        ref11.putEnumerated( idLyr, idOrdn, idBack );
+    desc25.putReference( idT, ref11 );
+executeAction( idmove, desc25, DialogModes.NO );
+
+//表示されているレイヤーを結合
+activeDocument.mergeVisibleLayers();
+
+
+//TGAで保存
+fileObj = new File("~/test.tga");
+tgaOpt = new TargaSaveOptions();
+tgaOpt.alphaChannels = true;
+tgaOpt.resolution = TargaBitsPerPixels.THIRTYTWO;
+tgaOpt.rleCompression = false;
+activeDocument.saveAs(fileObj, tgaOpt, true, Extension.LOWERCASE);
+
+// alphaChannels	αチャンネルを保存（true：保存する、false：保存しない）
+// resolution	色深度（ビット数）
+// TargaBitsPerPixels.SIXTEEN	16ビットカラー
+// TargaBitsPerPixels.THIRTYTWO	32ビットカラー
+// TargaBitsPerPixels.TWENTYFOUR	24ビットカラー
+// rleCompression	RLE（ランレングス）圧縮（true：する、false：しない）
+
+
+
+
+
